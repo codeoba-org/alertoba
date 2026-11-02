@@ -971,7 +971,7 @@ func (a *app) regenerateAPIKey(w http.ResponseWriter, r *http.Request, s *sessio
 
 func (a *app) recentSends() ([]sendView, error) {
 	rows, err := a.db.Query(`SELECT created_at, channel_id, channel_name, title, source, error
-		FROM sends WHERE created_at >= ? ORDER BY id DESC LIMIT 500`, time.Now().Add(-logRetention).Unix())
+		FROM sends WHERE created_at >= ? ORDER BY created_at DESC, id DESC LIMIT 500`, time.Now().Add(-logRetention).Unix())
 	if err != nil {
 		return nil, err
 	}
